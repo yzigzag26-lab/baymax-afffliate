@@ -698,3 +698,22 @@ body:has(.baymax-main-chat) { overflow:hidden; }
   0%, 60%, 100% { opacity:.35; transform:translateY(0); }
   30% { opacity:1; transform:translateY(-3px); }
 }
+
+
+/* Keep the composer send control visible: the generic composer button rule
+   must not erase the send button's contrast against the glass input. */
+.chat-composer > button.btn-send {
+  background: #111;
+  color: #fff;
+  box-shadow: 0 3px 10px rgba(17, 17, 17, .18);
+  opacity: 1;
+}
+.chat-composer > button.btn-send:disabled {
+  opacity: .72;
+  cursor: not-allowed;
+}
+.chat-composer > button.btn-send:hover:not(:disabled) {
+  background: #292929;
+  filter: none;
+  transform: translateY(-1px);
+}
