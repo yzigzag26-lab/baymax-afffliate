@@ -23,11 +23,6 @@ export default function ProductsPage() {
   return (
     <AppShell
       title="Products"
-      actions={
-        <Button size="sm" variant="sky" onClick={() => window.dispatchEvent(new Event('open-add-product'))}>
-          <Icon name="plus" className="w-4 h-4" /> Add product
-        </Button>
-      }
     >
       <ProductsBody />
     </AppShell>
