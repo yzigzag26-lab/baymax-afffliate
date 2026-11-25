@@ -140,11 +140,6 @@ function ProductsBody() {
             icon={<Icon name="box" />}
             title="No products yet"
             hint="Paste an AliExpress affiliate link and I'll import the product and start building promo content for it."
-            action={
-              <Button variant="sky" onClick={() => setOpen(true)}>
-                <Icon name="plus" className="w-4 h-4" /> Add your first product
-              </Button>
-            }
           />
         </Card>
       ) : (
