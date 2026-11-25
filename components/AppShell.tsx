@@ -92,7 +92,7 @@ export function AppShell({ title, children, actions }: { title: string; children
       </header>
 
       <main className={`baymax-main ${title === 'Chat' ? 'baymax-main-chat' : ''}`}>
-        {title !== 'Chat' && title !== 'Profile' && <div className="baymax-page-heading">
+        {title !== 'Chat' && title !== 'Profile' && title !== 'Dashboard' && <div className="baymax-page-heading">
           <div>
             <p className="baymax-eyebrow">YOUR AFFILIATE WORKSPACE</p>
             <h1>{title === 'Dashboard' ? 'Home' : title === 'Products' ? 'Product' : title}</h1>
