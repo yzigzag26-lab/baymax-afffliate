@@ -468,3 +468,145 @@ body {
     font-size: 11px;
   }
 }
+
+
+/* Hark reference profile composition */
+.baymax-profile-page {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  padding: 4px 0 28px;
+}
+.baymax-profile-identity {
+  margin: 4px 0 20px;
+  padding: 0 2px;
+}
+.baymax-profile-identity h2 {
+  margin: 0;
+  color: #111827;
+  font-size: clamp(25px, 4vw, 34px);
+  line-height: 1.15;
+  font-weight: 760;
+  letter-spacing: -.045em;
+}
+.baymax-profile-identity p {
+  margin: 7px 0 0;
+  color: rgba(25, 42, 64, .58);
+  font-size: 14px;
+}
+.baymax-profile-groups {
+  display: grid;
+  gap: 14px;
+}
+.baymax-profile-group {
+  overflow: hidden;
+  padding: 0 20px;
+  border: 1px solid rgba(255,255,255,.84);
+  border-radius: 27px;
+  background: rgba(250,252,255,.72);
+  box-shadow: 0 8px 28px rgba(38,68,105,.055), inset 0 1px 0 rgba(255,255,255,.8);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+}
+.baymax-profile-row {
+  display: flex;
+  min-height: 70px;
+  align-items: center;
+  gap: 15px;
+  padding: 0 4px;
+  color: #151d2a;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 650;
+  transition: background .16s ease, color .16s ease;
+}
+.baymax-profile-row + .baymax-profile-row {
+  border-top: 1px solid rgba(53,75,102,.095);
+}
+.baymax-profile-row:hover {
+  color: #1d5c9a;
+}
+.baymax-profile-row-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: #202a38;
+  stroke-width: 2;
+}
+.baymax-profile-chevron {
+  width: 19px;
+  height: 19px;
+  margin-left: auto;
+  flex: 0 0 19px;
+  color: #172333;
+  stroke-width: 2.7;
+}
+.baymax-profile-signout {
+  display: flex;
+  width: 100%;
+  min-height: 66px;
+  align-items: center;
+  gap: 15px;
+  margin-top: 14px;
+  padding: 0 24px;
+  border: 1px solid rgba(255,255,255,.55);
+  border-radius: 24px;
+  background: rgba(255,255,255,.28);
+  color: #202a38;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background .16s ease;
+}
+.baymax-profile-signout:hover {
+  background: rgba(255,255,255,.52);
+}
+.baymax-profile-search {
+  display: flex;
+  min-height: 60px;
+  align-items: center;
+  gap: 13px;
+  margin: 16px 8px 0;
+  padding: 0 22px;
+  border: 1px solid rgba(255,255,255,.75);
+  border-radius: 999px;
+  background: rgba(255,255,255,.62);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.7);
+  backdrop-filter: blur(18px);
+}
+.baymax-profile-search-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  color: #263344;
+  stroke-width: 2;
+}
+.baymax-profile-search input {
+  width: 100%;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #182538;
+  font-size: 14px;
+}
+.baymax-profile-search input::placeholder {
+  color: rgba(35,49,67,.55);
+}
+.baymax-profile-empty {
+  padding: 24px;
+  color: rgba(25,42,64,.55);
+  text-align: center;
+  font-size: 13px;
+}
+@media (max-width: 640px) {
+  .baymax-profile-page { padding-top: 2px; }
+  .baymax-profile-identity { margin: 4px 0 17px; padding: 0 2px; }
+  .baymax-profile-identity h2 { font-size: 27px; }
+  .baymax-profile-identity p { font-size: 13px; }
+  .baymax-profile-groups { gap: 12px; }
+  .baymax-profile-group { padding: 0 16px; border-radius: 25px; }
+  .baymax-profile-row { min-height: 68px; gap: 13px; font-size: 14px; }
+  .baymax-profile-signout { min-height: 62px; margin-top: 12px; border-radius: 23px; }
+  .baymax-profile-search { min-height: 58px; margin: 14px 6px 0; }
+}
