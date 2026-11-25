@@ -631,3 +631,58 @@ body {
     font-size: 12px;
   }
 }
+
+
+/* Hark reference sizing: 307px-wide, 60px-high centred mobile navigation. */
+@media (max-width: 900px) {
+  .baymax-topbar { height:68px; min-height:68px; padding:8px 16px; }
+  .baymax-nav-desktop {
+    width:min(307px,calc(100vw - 112px));
+    max-width:min(307px,calc(100vw - 112px));
+    height:60px; padding:4px; gap:0; border-radius:999px;
+    background:rgba(255,255,255,.62); box-shadow:none;
+  }
+  .baymax-nav-desktop .baymax-nav-link {
+    flex:1 1 0; min-width:0; height:52px; padding:0 8px;
+    justify-content:center; font-size:15px; font-weight:600; line-height:1;
+    color:rgba(26,39,58,.58);
+  }
+  .baymax-nav-desktop .baymax-nav-link.is-active { color:#fff; background:#111; box-shadow:none; }
+  .baymax-nav-desktop .baymax-nav-link svg { display:none; }
+  .baymax-avatar-button { width:42px; height:42px; }
+}
+@media (max-width:420px) {
+  .baymax-nav-desktop { width:min(286px,calc(100vw - 104px)); max-width:min(286px,calc(100vw - 104px)); height:58px; }
+  .baymax-nav-desktop .baymax-nav-link { height:50px; font-size:14px; padding:0 5px; }
+}
+
+/* Fixed chat viewport: only the message list scrolls, never the page. */
+body:has(.baymax-main-chat) { overflow:hidden; }
+.baymax-app:has(.baymax-main-chat) { height:100dvh; min-height:0; overflow:hidden; }
+.baymax-app:has(.baymax-main-chat) .baymax-topbar { height:68px; min-height:68px; }
+.baymax-main-chat { width:100%; max-width:none; height:calc(100dvh - 68px); min-height:0; margin:0; padding:0; overflow:hidden; }
+.baymax-main-chat > .baymax-page-heading { display:none; }
+.baymax-main-chat > div { width:100%; max-width:none; height:100%; min-height:0; margin:0; overflow:hidden; }
+.baymax-main-chat > div > .glass {
+  height:100%; min-height:0; border:0; border-radius:0;
+  background:transparent; box-shadow:none; backdrop-filter:none;
+}
+.baymax-main-chat .ambient { display:none; }
+.chat-assistant-bubble { background:rgba(255,255,255,.94); color:#182538; box-shadow:none; }
+.baymax-main-chat .bubble-user {
+  background:rgba(255,255,255,.94); color:#182538;
+  border:1px solid rgba(255,255,255,.8); box-shadow:none;
+}
+.chat-composer-wrap {
+  flex:0 0 auto;
+  padding:10px max(18px,env(safe-area-inset-right)) calc(12px + env(safe-area-inset-bottom)) max(18px,env(safe-area-inset-left));
+  background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.18));
+}
+.chat-composer {
+  min-height:62px; padding:6px 12px; border:1px solid rgba(255,255,255,.78);
+  border-radius:999px; background:rgba(255,255,255,.78);
+  box-shadow:0 4px 18px rgba(42,67,96,.07); backdrop-filter:blur(20px);
+}
+.chat-composer > button { background:transparent; box-shadow:none; }
+.chat-composer input { font-size:15px; }
+@media (max-width:900px) { .baymax-main-chat { height:calc(100dvh - 68px); } }
