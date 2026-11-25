@@ -610,3 +610,24 @@ body {
   .baymax-profile-signout { min-height: 62px; margin-top: 12px; border-radius: 23px; }
   .baymax-profile-search { min-height: 58px; margin: 14px 6px 0; }
 }
+
+
+/* Navigation scale refinement: increase tap targets and label legibility
+   while preserving the single-row mobile header layout. */
+.baymax-nav { gap: 7px; padding: 7px; }
+.baymax-nav-link { gap: 9px; padding: 13px 21px; font-size: 15px; }
+.baymax-nav-link svg { width: 19px; height: 19px; }
+@media (max-width: 900px) {
+  .baymax-nav-desktop { gap: 2px; padding: 5px; }
+  .baymax-nav-desktop .baymax-nav-link {
+    padding: 12px 17px;
+    font-size: 13px;
+  }
+}
+@media (max-width: 420px) {
+  .baymax-nav-desktop { max-width: calc(100% - 96px); }
+  .baymax-nav-desktop .baymax-nav-link {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
