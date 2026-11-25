@@ -71,12 +71,6 @@ export function AppShell({ title, children, actions }: { title: string; children
       </div>
 
       <header className="baymax-topbar">
-        <Link href="/dashboard" className="baymax-brand" aria-label="Baymax home">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/baymax-icon.png" alt="" className="baymax-brand-icon" />
-          <span>baymax<span className="baymax-brand-soft">.ai</span></span>
-        </Link>
-
         <nav className="baymax-nav baymax-nav-desktop" aria-label="Primary navigation">
           {NAV.map((item) => (
             <Link key={item.href} href={item.href} className={`baymax-nav-link ${activeNav(item.href) ? 'is-active' : ''}`}>
