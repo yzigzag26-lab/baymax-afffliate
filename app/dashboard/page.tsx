@@ -27,12 +27,10 @@ export default function DashboardPage() {
 function DashboardBody() {
   const [summary, setSummary] = useState<Summary | null>(null);
   const [autopilot, setAutopilot] = useState<{ enabled: boolean; dailyPerPlatform: number } | null>(null);
-  const [recent, setRecent] = useState<any[]>([]);
 
   useEffect(() => {
     api<Summary>('/analytics/summary').then(setSummary).catch(() => {});
     api<any>('/settings').then((s) => setAutopilot(s.autopilot)).catch(() => {});
-    api<any>('/content?limit=5').then((c) => setRecent(c.content ?? [])).catch(() => {});
   }, []);
 
   const cards = [
@@ -134,35 +132,6 @@ function DashboardBody() {
         ))}
       </div>
 
-      {/* recent content */}
-      <Card>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-navy/5">
-          <h2 className="font-bold text-navy">Recent content</h2>
-          <Link href="/content" className="text-xs font-semibold text-sky-deep hover:underline">
-            View all →
-          </Link>
-        </div>
-        {recent.length === 0 ? (
-          <div className="px-5 py-8 text-center text-sm text-navy/45">
-            Nothing yet — add a product and hit <b>Generate content</b>, or ask Baymax in chat.
-          </div>
-        ) : (
-          <ul className="divide-y divide-navy/5">
-            {recent.map((post) => (
-              <li key={post.id} className="px-5 py-3.5 flex items-center gap-3">
-                <span className="text-lg">{post.platform === 'tiktok' ? '🎵' : '▶️'}</span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-semibold text-navy truncate">{post.title}</p>
-                  <p className="text-xs text-navy/45 truncate">
-                    {post.products?.title ?? '—'} · {post.platform}
-                  </p>
-                </div>
-                <StatusBadge status={post.status} />
-              </li>
-            ))}
-          </ul>
-        )}
-      </Card>
     </div>
   );
 }
