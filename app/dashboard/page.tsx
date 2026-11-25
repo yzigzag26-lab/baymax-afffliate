@@ -18,16 +18,7 @@ interface Summary {
 
 export default function DashboardPage() {
   return (
-    <AppShell
-      title="Dashboard"
-      actions={
-        <Link href="/chat">
-          <Button size="sm" variant="sky">
-            <Icon name="send" className="w-4 h-4" /> Talk to Baymax
-          </Button>
-        </Link>
-      }
-    >
+    <AppShell title="Dashboard">
       <DashboardBody />
     </AppShell>
   );
