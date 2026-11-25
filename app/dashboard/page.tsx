@@ -44,16 +44,6 @@ function DashboardBody() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-4 rounded-3xl border border-white/70 bg-white/35 px-5 py-4 backdrop-blur-xl">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/baymax-icon.png" alt="" className="h-12 w-12 rounded-2xl bg-white/80 p-1 shadow-sm" />
-        <div>
-          <p className="text-[10px] font-extrabold uppercase tracking-[.16em] text-sky-deep">Baymax is ready</p>
-          <h2 className="mt-1 text-lg font-extrabold tracking-tight text-navy">What are we growing today?</h2>
-          <p className="mt-0.5 text-xs text-navy/50">Your products, campaigns and affiliate performance in one workspace.</p>
-        </div>
-      </div>
-
       {/* autopilot banner */}
       <div className="rounded-2xl bg-gradient-to-r from-sky-deep to-sky p-5 md:p-6 text-white shadow-lg shadow-sky/25 flex flex-wrap items-center gap-4">
         <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
