@@ -26,14 +26,6 @@ interface PendingFile {
   preview?: string;
 }
 
-const SUGGESTIONS = [
-  'Promote my newest product on TikTok',
-  'How are clicks looking this week?',
-  'Generate 2 YouTube posts for my best product',
-  'Record a $15 sale',
-  'Is autopilot on?',
-];
-
 const TOOL_LABELS: Record<string, string> = {
   list_products: 'Reading products',
   add_product: 'Adding product',
@@ -85,24 +77,22 @@ function ChatBody() {
   const [input, setInput] = useState('');
   const [thinking, setThinking] = useState<{ phase: 'upload' | 'agent' } | null>(null);
   const [step, setStep] = useState(0);
-  const [provider, setProvider] = useState<string>('');
   const [error, setError] = useState('');
   const [pending, setPending] = useState<PendingFile[]>([]);
   const [dragging, setDragging] = useState(false);
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const messagesRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dragDepth = useRef(0);
 
   useEffect(() => {
     api<{ messages: Msg[] }>('/chat/messages').then((r) => {
       setMessages(r.messages);
-      const lastAssistant = [...r.messages].reverse().find((m) => m.role === 'assistant');
-      if (lastAssistant?.meta?.provider) setProvider(lastAssistant.meta.provider);
     }).catch(() => {});
   }, []);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const pane = messagesRef.current;
+    if (pane) pane.scrollTo({ top: pane.scrollHeight, behavior: 'smooth' });
   }, [messages, thinking]);
 
   // Advance the autonomous pipeline while the agent works server-side
@@ -220,7 +210,6 @@ function ChatBody() {
         '/chat',
         { body: { message: message || 'Please review the attached files.', attachments: sent.length ? sent : undefined } }
       );
-      setProvider(res.provider);
       setMessages((m) => [
         ...m,
         {
@@ -240,7 +229,6 @@ function ChatBody() {
   }
 
   const empty = messages.length === 0 && !thinking;
-  const liveProvider = provider === 'gemini' || provider === 'groq';
 
   return (
     <div
@@ -276,66 +264,14 @@ function ChatBody() {
         </div>
       )}
 
-      <div className="relative z-10 flex flex-col h-full glass rounded-none border-x-0 px-3 py-3 sm:px-4 md:px-6">
-        {/* ── agent header ── */}
-        <div className="flex items-center gap-3 pb-4 border-b border-white/60">
-          <span className={`shrink-0 ${thinking ? 'halo' : ''}`}>
-            <span className="block relative rounded-xl">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/baymax-icon.png" alt="Baymax" className="w-10 h-10 rounded-xl shadow-md bg-white" />
-              <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-success border-2 border-white/80" />
-            </span>
-          </span>
-          <div className="min-w-0">
-            <div className="font-extrabold text-navy leading-tight tracking-tight">Baymax</div>
-            <div className="text-xs text-navy/50 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-              {thinking
-                ? thinking.phase === 'upload'
-                  ? 'attaching files…'
-                  : 'agent working autonomously'
-                : liveProvider
-                  ? `${provider} · autonomous copilot`
-                  : 'autonomous copilot'}
-            </div>
-          </div>
-          <div className="ml-auto flex items-center gap-2">
-            {liveProvider && (
-              <span className="glass-soft hidden sm:inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold text-navy/70 uppercase tracking-wide">
-                <span className="w-1.5 h-1.5 rounded-full bg-sky-deep" />
-                {provider}
-              </span>
-            )}
-          </div>
-        </div>
-
+      <div className="relative z-10 flex flex-col h-full min-h-0 px-0 py-0">
         {/* ── messages ── */}
-        <div className="flex-1 min-h-0 overflow-y-auto chat-scroll pr-1 space-y-5 py-5">
+        <div ref={messagesRef} className="flex-1 min-h-0 overflow-y-auto chat-scroll px-5 sm:px-8 py-5 space-y-5">
           {empty && (
-            <div className="h-full flex flex-col items-center justify-center text-center px-4">
-              <div className="relative mb-5">
-                <span className="absolute inset-0 rounded-full bg-sky/40 blur-2xl scale-125" aria-hidden="true" />
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/baymax-hero.png" alt="" className="relative h-24 w-auto drop-shadow-lg" />
-              </div>
-              <div className="glass-soft rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em] text-sky-deep mb-4">
-                system online · ready to act
-              </div>
-              <h2 className="text-xl font-extrabold text-navy tracking-tight">What should we do next?</h2>
-              <p className="text-sm text-navy/50 mt-1 mb-6 max-w-sm">
-                I can write posts, schedule them, track clicks and sales — just ask. Drop a file to share it too.
+            <div className="h-full flex items-center justify-center px-6">
+              <p className="max-w-sm text-center text-[15px] leading-7 text-navy/55">
+                Hi, I am Baymax. What would you like to work on?
               </p>
-              <div className="flex flex-wrap justify-center gap-2 max-w-lg">
-                {SUGGESTIONS.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => send(s)}
-                    className="glass-soft text-xs font-semibold text-navy/70 hover:text-sky-deep hover:border-sky-deep/40 hover:-translate-y-0.5 px-3.5 py-2 rounded-full transition-all"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
             </div>
           )}
 
@@ -393,7 +329,6 @@ function ChatBody() {
               {error}
             </div>
           )}
-          <div ref={bottomRef} />
         </div>
 
         {/* ── pending attachments ── */}
@@ -426,8 +361,8 @@ function ChatBody() {
         )}
 
         {/* ── composer ── */}
-        <div className="pt-1">
-          <div className="glass flex items-center gap-2 rounded-full px-2 py-1.5 focus-within:border-sky-deep/50 focus-within:ring-2 focus-within:ring-sky-deep/15 transition">
+        <div className="chat-composer-wrap">
+          <div className="chat-composer glass flex items-center gap-2 rounded-full px-2 py-1.5 focus-within:border-sky-deep/50 focus-within:ring-2 focus-within:ring-sky-deep/15 transition">
             <input
               ref={fileInputRef}
               type="file"
@@ -463,7 +398,7 @@ function ChatBody() {
                   send(input);
                 }
               }}
-              placeholder="Ask Baymax — or drop / attach any file…"
+              placeholder="Message Baymax"
               className="flex-1 bg-transparent px-2 py-2 text-sm text-ink placeholder:text-navy/35 outline-none min-w-0"
             />
             <button
@@ -475,10 +410,6 @@ function ChatBody() {
               <Icon name="send" className="w-4 h-4" />
             </button>
           </div>
-          <p className="text-[10px] text-navy/40 text-center mt-2 flex items-center justify-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-            Baymax-Shoppey takes real actions in your store · full autopilot
-          </p>
         </div>
       </div>
     </div>
@@ -491,16 +422,12 @@ function Message({ m }: { m: Msg }) {
   const attachments = m.meta?.attachments ?? [];
   return (
     <div className={`flex gap-3 fade-up ${isUser ? 'flex-row-reverse' : ''}`}>
-      {!isUser && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src="/baymax-icon.png" alt="" className="w-8 h-8 rounded-lg shadow-sm mt-0.5 shrink-0 bg-white" />
-      )}
-      <div className={`max-w-[80%] ${isUser ? 'text-right' : ''}`}>
+      <div className={`max-w-[88%] ${isUser ? 'text-right' : ''}`}>
         <div
           className={
             isUser
               ? 'bubble-user text-white rounded-2xl rounded-tr-md px-4 py-2.5 text-sm leading-relaxed whitespace-pre-wrap inline-block text-left'
-              : 'glass rounded-2xl rounded-tl-md px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap inline-block'
+              : 'chat-assistant-bubble rounded-2xl rounded-tl-md px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap inline-block'
           }
         >
           {m.content || (attachments.length ? '📎' : '')}
@@ -556,9 +483,6 @@ function Message({ m }: { m: Msg }) {
             ))}
           </div>
         )}
-        <div className="text-[10px] text-navy/30 mt-1 px-1">
-          {new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-        </div>
       </div>
     </div>
   );
